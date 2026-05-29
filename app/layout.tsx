@@ -27,24 +27,6 @@ export const metadata: Metadata = {
   },
 }
 
-function validateClerkEnvironment() {
-  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-  const secretKey = process.env.CLERK_SECRET_KEY
-
-  if (!publishableKey) {
-    console.error("Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY environment variable")
-  }
-
-  if (!secretKey) {
-    console.error("Missing CLERK_SECRET_KEY environment variable")
-  }
-}
-
-// Validate environment variables in development
-if (process.env.NODE_ENV === "development") {
-  validateClerkEnvironment()
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -52,7 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className="bg-background">
         <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
           <DynamicTitle />
           {children}
