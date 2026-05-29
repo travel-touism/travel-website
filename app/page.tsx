@@ -6,6 +6,8 @@ import { TestimonialsSection } from '@/components/testimonials-section'
 import { NewsletterSection } from '@/components/newsletter-section'
 import { Footer } from '@/components/footer'
 
+export const dynamic = 'force-dynamic'
+
 export default function HomePage() {
   return (
     <div className="bg-background min-h-screen">

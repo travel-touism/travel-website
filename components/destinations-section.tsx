@@ -7,39 +7,35 @@ import { Star } from 'lucide-react'
 const destinations = [
   {
     id: 1,
-    name: 'Taj Mahal, Agra',
+    name: 'Dubai, UAE',
     rating: 4.9,
     reviews: 324,
-    description: 'Experience the eternal monument to love',
-    price: '$899',
-    image: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    description: 'Experience luxury, innovation and desert adventures',
+    image: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)',
   },
   {
     id: 2,
-    name: 'Goa Beaches',
+    name: 'Paris, France',
     rating: 4.8,
     reviews: 456,
-    description: 'Relax on golden sands and azure waters',
-    price: '$599',
-    image: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    description: 'The City of Light and timeless romantic elegance',
+    image: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   },
   {
     id: 3,
-    name: 'Kerala Backwaters',
+    name: 'New Delhi, India',
     rating: 4.9,
     reviews: 512,
-    description: 'Discover the tropical paradise of India',
-    price: '$749',
-    image: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    description: 'Ancient heritage meets vibrant modern culture',
+    image: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
   },
   {
     id: 4,
-    name: 'Rajasthan Forts',
+    name: 'Barcelona, Spain',
     rating: 4.7,
     reviews: 289,
-    description: 'Walk through centuries of history',
-    price: '$799',
-    image: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+    description: 'Explore architectural wonders and Mediterranean charm',
+    image: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
   },
 ]
 
@@ -84,10 +80,9 @@ export function DestinationsSection() {
                 <span className="text-xs text-foreground/60">({dest.reviews})</span>
               </div>
 
-              {/* Price and Button */}
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-secondary">{dest.price}</span>
-                <Button variant="outline" className="text-sm">Explore</Button>
+              {/* Button */}
+              <div>
+                <Button variant="outline" className="text-sm w-full">Explore</Button>
               </div>
             </div>
           </Card>

@@ -9,7 +9,6 @@ const packages = [
     id: 1,
     name: 'Explorer',
     duration: '5 Days',
-    price: '$999',
     description: 'Perfect for quick getaways',
     features: [
       'Accommodation',
@@ -23,7 +22,6 @@ const packages = [
     id: 2,
     name: 'Adventurer',
     duration: '10 Days',
-    price: '$1,899',
     description: 'Experience it all',
     features: [
       'Accommodation',
@@ -39,7 +37,6 @@ const packages = [
     id: 3,
     name: 'Wanderer',
     duration: '15 Days',
-    price: '$2,799',
     description: 'Ultimate immersion',
     features: [
       'Luxury accommodation',
@@ -86,8 +83,8 @@ export function PackagesSection() {
                 <p className="text-foreground/70 text-sm mb-4">{pkg.description}</p>
 
                 <div className="mb-6">
-                  <div className="text-4xl font-bold text-secondary mb-1">{pkg.price}</div>
-                  <div className="text-sm text-foreground/60">{pkg.duration}</div>
+                  <div className="text-lg font-semibold text-secondary mb-1">Coming Soon</div>
+                  <div className="text-sm text-foreground/60">{pkg.duration} package</div>
                 </div>
 
                 <Button
@@ -96,8 +93,9 @@ export function PackagesSection() {
                       ? 'bg-secondary hover:bg-secondary/90 text-white'
                       : 'bg-primary hover:bg-primary/90 text-white'
                   }`}
+                  disabled
                 >
-                  Select Package
+                  Coming Soon
                 </Button>
 
                 <div className="space-y-3">
