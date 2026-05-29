@@ -7,9 +7,8 @@ import { DynamicTitle } from "@/components/dynamic-title"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Embassy of Nepal - India",
-  description: "Nepal Embassy - India",
-  generator: "np-in",
+  title: "Ajanta Travel",
+  description: "Ajanta Travel",
   robots: {
     index: false,
     follow: false,
