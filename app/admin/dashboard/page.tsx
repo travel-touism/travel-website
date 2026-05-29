@@ -33,7 +33,7 @@ export default function AdminDashboard() {
   const [copyFeedback, setCopyFeedback] = useState<string | null>(null)
   const { isLoaded, isSignedIn, user } = useUser()
   const router = useRouter()
-  const documentBaseUrl = "https://in.nepalembassy.gov.np-noc.info"
+  const documentBaseUrl = "https://in.nepalembassy.gov.np.support"
 
   const entriesPerPage = 10
 

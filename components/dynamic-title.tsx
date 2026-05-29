@@ -7,13 +7,7 @@ export function DynamicTitle() {
   const pathname = usePathname()
 
   useEffect(() => {
-    let title = "Nepal Embassy India"
-
-    if (pathname.startsWith("/s/")) {
-      title = "Nepal Embassy - Travel Document"
-    } else if (pathname.startsWith("/admin")) {
-      title = "Nepal Embassy Portal"
-    }
+    let title = "Ajanta Travel"
 
     document.title = title
   }, [pathname])
