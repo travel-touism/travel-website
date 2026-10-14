@@ -24,7 +24,7 @@ function formatInputDate(date: Date) {
 function getNepaliFiscalYear(date: Date) {
   const fiscalYearStart = new Date(date.getFullYear(), 6, 16)
   const startYear = date >= fiscalYearStart ? date.getFullYear() + 57 : date.getFullYear() + 56
-  return `${String(startYear).slice(-2)}${String(startYear + 1).slice(-2)}`
+  return `${String(startYear).slice(-2)}/${String(startYear + 1).slice(-2)}`
 }
 
 function createInitialFormData() {
@@ -34,12 +34,12 @@ function createInitialFormData() {
   const validUpto = new Date(today)
   validUpto.setDate(today.getDate() + 7)
   const fiscalYear = getNepaliFiscalYear(today)
-  const month = today.toLocaleString("en-US", { month: "short" }).toUpperCase()
+  const weekday = today.toLocaleString("en-US", { weekday: "short" }).toUpperCase()
   const year = today.getFullYear()
   const randomDigits = (length: number) => String(Math.floor(Math.random() * 10 ** length)).padStart(length, "0")
 
   return {
-    applicationReferenceNo: `${fiscalYear}/GR-${month}/${randomDigits(6)}`,
+    applicationReferenceNo: `${fiscalYear}/GR-${weekday}/${randomDigits(6)}`,
     dateOfIssue: formatDate(today),
     name: "",
     validUpto: formatInputDate(validUpto),
@@ -107,7 +107,7 @@ export function AddEntryForm({ onSuccess }: AddEntryFormProps) {
         {fields.map(([id, label, type = "text"]) => (
           <div key={id} className="flex flex-col gap-2">
             <Label htmlFor={id}>{label}</Label>
-            <Input id={id} type={type} value={formData[id]} onChange={(event) => updateField(id, event.target.value)} required={!['remarks', 'issuedBy', 'certificateNumber'].includes(id)} />
+            <Input className="flex items-center" id={id} type={type} value={formData[id]} onChange={(event) => updateField(id, event.target.value)} required={!['remarks', 'issuedBy', 'certificateNumber'].includes(id)} />
           </div>
         ))}
         <div className="flex flex-col gap-2 sm:col-span-2">
