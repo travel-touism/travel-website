@@ -138,14 +138,14 @@ export default function AdminDashboard() {
                 <FileText className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold">Admin Dashboard</h1>
-                <p className="text-sm text-muted-foreground">
+                <h1 className="text-xl font-semibold text-white">Admin Dashboard</h1>
+                <p className="text-sm text-slate-200">
                   Welcome, {user?.username || user?.emailAddresses[0]?.emailAddress}
                 </p>
               </div>
             </div>
             <SignOutButton redirectUrl="/admin">
-              <Button variant="outline">
+              <Button variant="outline" className="border-slate-400 bg-slate-700 text-white hover:bg-slate-600 hover:text-white">
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
               </Button>
