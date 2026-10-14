@@ -17,6 +17,8 @@ export interface PDFEntry {
   remarks?: string
   filename: string
   blobUrl: string
+  photoFilename?: string
+  photoBlobUrl?: string
   createdAt: string
 }
 
@@ -111,6 +113,8 @@ export async function savePDFEntry(entry: PDFEntry): Promise<void> {
   }
   await redis.hset(key, "filename", entry.filename)
   await redis.hset(key, "blobUrl", entry.blobUrl)
+  await redis.hset(key, "photoFilename", entry.photoFilename || "")
+  await redis.hset(key, "photoBlobUrl", entry.photoBlobUrl || "")
   await redis.hset(key, "createdAt", entry.createdAt)
 }
 
@@ -125,8 +129,22 @@ export async function getPDFEntry(id: string): Promise<PDFEntry | null> {
     name: data.name,
     email: data.email,
     password: data.password,
+    applicationReferenceNo: data.applicationReferenceNo,
+    dateOfIssue: data.dateOfIssue,
+    validUpto: data.validUpto,
+    passportNumber: data.passportNumber,
+    dateOfBirth: data.dateOfBirth,
+    issuedBy: data.issuedBy,
+    nationality: data.nationality,
+    certificateNumber: data.certificateNumber,
+    purpose: data.purpose,
+    submittedOn: data.submittedOn,
+    applicationStatus: data.applicationStatus,
+    remarks: data.remarks,
     filename: data.filename,
     blobUrl: data.blobUrl,
+    photoFilename: data.photoFilename,
+    photoBlobUrl: data.photoBlobUrl,
     createdAt: data.createdAt,
   }
 }
