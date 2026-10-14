@@ -3,6 +3,18 @@ export interface PDFEntry {
   name: string
   email: string
   password: string
+  applicationReferenceNo?: string
+  dateOfIssue?: string
+  validUpto?: string
+  passportNumber?: string
+  dateOfBirth?: string
+  issuedBy?: string
+  nationality?: string
+  certificateNumber?: string
+  purpose?: string
+  submittedOn?: string
+  applicationStatus?: string
+  remarks?: string
   filename: string
   blobUrl: string
   createdAt: string
@@ -91,6 +103,12 @@ export async function savePDFEntry(entry: PDFEntry): Promise<void> {
   await redis.hset(key, "name", entry.name)
   await redis.hset(key, "email", entry.email)
   await redis.hset(key, "password", entry.password)
+  for (const field of [
+    "applicationReferenceNo", "dateOfIssue", "validUpto", "passportNumber", "dateOfBirth",
+    "issuedBy", "nationality", "certificateNumber", "purpose", "submittedOn", "applicationStatus", "remarks",
+  ] as const) {
+    await redis.hset(key, field, entry[field] || "")
+  }
   await redis.hset(key, "filename", entry.filename)
   await redis.hset(key, "blobUrl", entry.blobUrl)
   await redis.hset(key, "createdAt", entry.createdAt)
