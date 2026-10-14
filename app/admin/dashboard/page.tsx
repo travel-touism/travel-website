@@ -215,7 +215,7 @@ export default function AdminDashboard() {
                     Add New Entry
                   </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-md">
+                <DialogContent className="w-[calc(100%-2rem)] max-w-3xl max-h-[90vh] overflow-y-auto p-6 sm:p-8">
                   <DialogHeader>
                     <DialogTitle>Add New Entry</DialogTitle>
                     <DialogDescription>Upload document and create a secure sharing link</DialogDescription>
