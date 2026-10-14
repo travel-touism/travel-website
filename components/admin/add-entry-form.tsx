@@ -17,21 +17,32 @@ function formatDate(date: Date) {
   return [String(date.getDate()).padStart(2, "0"), String(date.getMonth() + 1).padStart(2, "0"), date.getFullYear()].join("/")
 }
 
+function formatInputDate(date: Date) {
+  return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-")
+}
+
+function getNepaliFiscalYear(date: Date) {
+  const fiscalYearStart = new Date(date.getFullYear(), 6, 16)
+  const startYear = date >= fiscalYearStart ? date.getFullYear() + 57 : date.getFullYear() + 56
+  return `${String(startYear).slice(-2)}${String(startYear + 1).slice(-2)}`
+}
+
 function createInitialFormData() {
   const today = new Date()
   const submittedOn = new Date(today)
   submittedOn.setDate(today.getDate() - 2)
   const validUpto = new Date(today)
-  validUpto.setMonth(today.getMonth() + 6)
+  validUpto.setDate(today.getDate() + 7)
+  const fiscalYear = getNepaliFiscalYear(today)
+  const month = today.toLocaleString("en-US", { month: "short" }).toUpperCase()
   const year = today.getFullYear()
-  const month = String(today.getMonth() + 1).padStart(2, "0")
   const randomDigits = (length: number) => String(Math.floor(Math.random() * 10 ** length)).padStart(length, "0")
 
   return {
-    applicationReferenceNo: `EON/ND/NOC/${year}/${month}/${randomDigits(4)}`,
+    applicationReferenceNo: `${fiscalYear}/GR-${month}/${randomDigits(6)}`,
     dateOfIssue: formatDate(today),
     name: "",
-    validUpto: formatDate(validUpto),
+    validUpto: formatInputDate(validUpto),
     passportNumber: "",
     dateOfBirth: "",
     issuedBy: ISSUED_BY,
@@ -83,16 +94,16 @@ export function AddEntryForm({ onSuccess }: AddEntryFormProps) {
 
   const fields = [
     ["applicationReferenceNo", "Application Reference No."], ["dateOfIssue", "Date of Issue"],
-    ["name", "Full Name"], ["validUpto", "Valid Upto"], ["passportNumber", "Passport Number"],
-    ["dateOfBirth", "Date of Birth"], ["issuedBy", "Issued By"], ["nationality", "Nationality"],
+    ["name", "Full Name"], ["validUpto", "Valid Upto", "date"], ["passportNumber", "Passport Number"],
+    ["dateOfBirth", "Date of Birth", "date"], ["issuedBy", "Issued By"], ["nationality", "Nationality"],
     ["certificateNumber", "Certificate Number"], ["purpose", "Purpose"], ["submittedOn", "Submitted On"],
     ["applicationStatus", "Application Status"], ["remarks", "Remarks"], ["email", "Email", "email"],
     ["password", "Access Password", "password"],
   ] as const
 
   return (
-    <form onSubmit={handleSubmit} className="flex max-h-[70vh] flex-col gap-4 overflow-y-auto pr-1">
-      <div className="grid gap-4 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="flex max-h-[70vh] flex-col gap-5 overflow-y-auto px-1 py-2 sm:px-2">
+      <div className="grid gap-5 sm:grid-cols-2">
         {fields.map(([id, label, type = "text"]) => (
           <div key={id} className="flex flex-col gap-2">
             <Label htmlFor={id}>{label}</Label>
@@ -100,12 +111,12 @@ export function AddEntryForm({ onSuccess }: AddEntryFormProps) {
           </div>
         ))}
         <div className="flex flex-col gap-2 sm:col-span-2">
-          <Label htmlFor="file">PDF File</Label>
-          <Input id="file" type="file" accept=".pdf" onChange={(event) => setFile(event.target.files?.[0] || null)} required />
+          <Label htmlFor="photo">Photo</Label>
+          <Input id="photo" type="file" accept=".jpg,.jpeg,.png,.webp" className="h-12 py-2" onChange={(event) => setPhoto(event.target.files?.[0] || null)} required />
         </div>
         <div className="flex flex-col gap-2 sm:col-span-2">
-          <Label htmlFor="photo">Photo</Label>
-          <Input id="photo" type="file" accept=".jpg,.jpeg,.png,.webp" onChange={(event) => setPhoto(event.target.files?.[0] || null)} required />
+          <Label htmlFor="file">PDF File</Label>
+          <Input id="file" type="file" accept=".pdf" className="h-14 py-3" onChange={(event) => setFile(event.target.files?.[0] || null)} required />
         </div>
       </div>
       {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
