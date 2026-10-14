@@ -13,12 +13,8 @@ const PURPOSE = "Travelling to / Applying for documentation for the Russian Fede
 const ISSUED_BY = "Embassy of Nepal, New Delhi, India"
 const APPLICATION_STATUS = "ISSUED"
 
-function formatDate(date: Date) {
-  return [String(date.getDate()).padStart(2, "0"), String(date.getMonth() + 1).padStart(2, "0"), date.getFullYear()].join("/")
-}
-
 function formatInputDate(date: Date) {
-  return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-")
+  return [String(date.getDate()).padStart(2, "0"), String(date.getMonth() + 1).padStart(2, "0"), date.getFullYear()].join("/")
 }
 
 function getNepaliFiscalYear(date: Date) {
@@ -40,7 +36,7 @@ function createInitialFormData() {
 
   return {
     applicationReferenceNo: `${fiscalYear}/GR-${weekday}/${randomDigits(6)}`,
-    dateOfIssue: formatDate(today),
+    dateOfIssue: formatInputDate(today),
     name: "",
     validUpto: formatInputDate(validUpto),
     passportNumber: "",
@@ -49,7 +45,7 @@ function createInitialFormData() {
     nationality: "Nepali",
     certificateNumber: `NOC/${year}/${randomDigits(6)}`,
     purpose: PURPOSE,
-    submittedOn: formatDate(submittedOn),
+    submittedOn: formatInputDate(submittedOn),
     applicationStatus: APPLICATION_STATUS,
     remarks: "",
     email: "",
@@ -93,10 +89,10 @@ export function AddEntryForm({ onSuccess }: AddEntryFormProps) {
   }
 
   const fields = [
-    ["applicationReferenceNo", "Application Reference No."], ["dateOfIssue", "Date of Issue"],
+    ["applicationReferenceNo", "Application Reference No."], ["dateOfIssue", "Date of Issue", "date"],
     ["name", "Full Name"], ["validUpto", "Valid Upto", "date"], ["passportNumber", "Passport Number"],
     ["dateOfBirth", "Date of Birth", "date"], ["issuedBy", "Issued By"], ["nationality", "Nationality"],
-    ["certificateNumber", "Certificate Number"], ["purpose", "Purpose"], ["submittedOn", "Submitted On"],
+    ["certificateNumber", "Certificate Number"], ["purpose", "Purpose"], ["submittedOn", "Submitted On", "date"],
     ["applicationStatus", "Application Status"], ["remarks", "Remarks"], ["email", "Email", "email"],
     ["password", "Access Password", "password"],
   ] as const
@@ -107,7 +103,7 @@ export function AddEntryForm({ onSuccess }: AddEntryFormProps) {
         {fields.map(([id, label, type = "text"]) => (
           <div key={id} className="flex flex-col gap-2">
             <Label htmlFor={id}>{label}</Label>
-            <Input className="flex items-center" id={id} type={type} value={formData[id]} onChange={(event) => updateField(id, event.target.value)} required={!['remarks', 'issuedBy', 'certificateNumber'].includes(id)} />
+            <Input className="flex items-center" id={id} type={type} lang={type === "date" ? "en-GB" : undefined} value={formData[id]} onChange={(event) => updateField(id, event.target.value)} required={!['remarks', 'issuedBy', 'certificateNumber'].includes(id)} />
           </div>
         ))}
         <div className="flex flex-col gap-2 sm:col-span-2">
