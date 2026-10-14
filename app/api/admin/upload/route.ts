@@ -10,6 +10,20 @@ export async function POST(request: NextRequest) {
     const name = formData.get("name") as string
     const email = formData.get("email") as string
     const password = formData.get("password") as string
+    const applicationFields = {
+      applicationReferenceNo: String(formData.get("applicationReferenceNo") || ""),
+      dateOfIssue: String(formData.get("dateOfIssue") || ""),
+      validUpto: String(formData.get("validUpto") || ""),
+      passportNumber: String(formData.get("passportNumber") || ""),
+      dateOfBirth: String(formData.get("dateOfBirth") || ""),
+      issuedBy: String(formData.get("issuedBy") || ""),
+      nationality: String(formData.get("nationality") || ""),
+      certificateNumber: String(formData.get("certificateNumber") || ""),
+      purpose: String(formData.get("purpose") || ""),
+      submittedOn: String(formData.get("submittedOn") || ""),
+      applicationStatus: String(formData.get("applicationStatus") || ""),
+      remarks: String(formData.get("remarks") || ""),
+    }
 
     // Validate required fields
     if (!file || !name || !email || !password) {
@@ -42,6 +56,7 @@ export async function POST(request: NextRequest) {
       name,
       email,
       password,
+      ...applicationFields,
       filename: file.name,
       blobUrl: blob.url,
       createdAt: new Date().toISOString(),

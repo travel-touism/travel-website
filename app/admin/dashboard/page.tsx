@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useEffect } from "react"
 import { useUser, SignOutButton } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
@@ -22,6 +20,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Plus, FileText, Users, Link, Trash2, Eye, LogOut, Calendar, Mail, User } from "lucide-react"
 import type { PDFEntry } from "@/lib/redis"
+import { AddEntryForm } from "@/components/admin/add-entry-form"
 
 export default function AdminDashboard() {
   const [pdfEntries, setPdfEntries] = useState<PDFEntry[]>([])
@@ -362,100 +361,5 @@ export default function AdminDashboard() {
         </Card>
       </div>
     </div>
-  )
-}
-
-function AddEntryForm({ onSuccess }: { onSuccess: () => void }) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  })
-  const [file, setFile] = useState<File | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!file) {
-      setError("Please select a PDF file")
-      return
-    }
-
-    setLoading(true)
-    setError("")
-
-    try {
-      const formDataToSend = new FormData()
-      formDataToSend.append("file", file)
-      formDataToSend.append("name", formData.name)
-      formDataToSend.append("email", formData.email)
-      formDataToSend.append("password", formData.password)
-
-      const response = await fetch("/api/admin/upload", {
-        method: "POST",
-        body: formDataToSend,
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        onSuccess()
-        setFormData({ name: "", email: "", password: "" })
-        setFile(null)
-      } else {
-        setError(data.error || "Upload failed")
-      }
-    } catch (error) {
-      setError("Network error. Please try again.")
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          required
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="password">Access Password</Label>
-        <Input
-          id="password"
-          type="password"
-          value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          required
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="file">PDF File</Label>
-        <Input id="file" type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => setFile(e.target.files?.[0] || null)} required />
-      </div>
-      {error && (
-        <Alert variant="destructive">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? "Uploading..." : "Create Entry"}
-      </Button>
-    </form>
   )
 }
